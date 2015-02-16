@@ -1,10 +1,6 @@
 Site Starter for Angular
 =====================
 
-Online Website
-----------------
-[Online Link] (http://wspecs.com/hl)
-
 Installation
 --------------
 ```
@@ -12,11 +8,9 @@ $ npm install
 $ grunt
 ```
 
-Credit
+Tools
 ------
 * AngularJs
-* Phonegap
-* Ionic
 * GruntJs
 * NodeJS 
 
