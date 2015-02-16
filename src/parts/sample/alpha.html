@@ -1,0 +1,36 @@
+<view-title>Index Alphab&eacute;tique - (H&amp;L)</view-title>
+
+<section id="content">
+     <div class="content-wrap">
+          <div class="container clearfix">
+               <h2>Index Alphab&eacute;tique</h2>
+               <div class="tagcloud">
+                    <a ng-repeat="w in alphabet" ng-href="alphabet/{{w}}"><strong>&nbsp;&nbsp;{{w}}&nbsp;&nbsp;</strong></a>
+               </div>
+               
+               <div class="clearfix"></div>
+               <br>
+               
+               <div>
+                    <div class="col_three_fourth col_last">
+                         <h1>{{index}}</h1>
+                         <div ng-repeat="w in alpha.indexes">
+                              <a ng-href="chant/{{w.n}}"><h4>{{w.t}} ({{w.n}})</h4></a>
+                         </div>
+                    </div>
+                    <div class="col_one_fourth">
+                         <!-- HL adds -->
+                         <ins class="adsbygoogle"
+                              style="display:block"
+                              data-ad-client="ca-pub-5917480362683343"
+                              data-ad-slot="7050072917"
+                              data-ad-format="auto"></ins>
+                         <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                         </script>
+                    </div>
+               </div>
+
+          </div>
+     </div>
+</section>
