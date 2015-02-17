@@ -1,4 +1,9 @@
 module.exports = function(grunt) {
+  // ===============================================================
+  // VARIABLES
+  // ===============================================================
+  var site_folder = grunt.option('dest') || 'www';
+  var base = grunt.option('root') || 'repo/posts_angular/www';
 
   var SERVER_PORT = "7777";
   var DIST = './../';
@@ -16,16 +21,19 @@ module.exports = function(grunt) {
   var source = root + 'admin/source';
   var lib = root + 'admin/lib';
 
+
   // ===============================================================
   // HTACCESS ANGULAR APPS
   // ===============================================================
+  var ht_access_root = base;
   var htaccess = destination_site + '/.htaccess';
+  var base_html = '<base href="/' + base + '/">';
 
 	// ===============================================================
 	// CONCAT RESSOURCES 
 	// ===============================================================
 	var jsconcat_src = [
-  root + 'site/source/ws.config.js',
+  source_site + '/ws.config.js',
   source_site + '/app/*.js',
   source_site + '/filter/*.js',
   source_site + '/services/*.js',
@@ -59,9 +67,6 @@ module.exports = function(grunt) {
   var wsSass_watch = [source_site + '/sass/ws/*.scss', source_site + '/sass/ws.scss'];
   var wsJs_watch = [source_site + '/wsJs/*.js'];
   var html_watch = [source_site + '/parts/**/*.html', source_site + '/pages/*.html'];
-  
-
-
 
     // Display the execution time when tasks are run:
     require('time-grunt')(grunt);
@@ -121,7 +126,18 @@ module.exports = function(grunt) {
           },
 
           clean: {
-              dist: [destination_site]
+            dist: [destination_site]
+          },
+
+          replace: {
+            another_example: {
+              src: ['www/index.php'],
+              overwrite: true,               
+              replacements: [{
+                from: '<!-- generate_base -->',
+                to: "<!-- Generated on: <%= grunt.template.today('dd/mm/yyyy') %> -->\r\n" + base_html
+              }]
+            }
           },
 
           connect: {
@@ -137,29 +153,29 @@ module.exports = function(grunt) {
 
         });
 
-    grunt.registerTask('htaccess', 'Creates an empty file', function() {
-        var ht = '<IfModule mod_rewrite.c>\r\n' + 
-          'RewriteEngine On\r\nRewriteBase /\r\n\r\n' +
-          'RewriteCond %{REQUEST_FILENAME} !-f\r\n' +
-          'RewriteCond %{REQUEST_FILENAME} !-d\r\n' +
-          'RewriteRule ^plein/(.*)  /' + site_folder + '/plein.php?c=$1 [L]\r\n\r\n' +
-          '# RewriteCond %{REQUEST_FILENAME} !-f\r\n# RewriteCond %{REQUEST_FILENAME} !-d\r\n' +
-          '# RewriteRule ^(.*)  /' + site_folder + '/#/$1 [L]\r\n\r\n' +
-          'RewriteCond %{REQUEST_FILENAME} !-f\r\n' + 
-          'RewriteCond %{REQUEST_FILENAME} !-d\r\n' + 
-          'RewriteCond %{REQUEST_URI} !index\r\n' + 
-          'RewriteCond %{REQUEST_URI} !robots\r\n' + 
-          'RewriteCond %{REQUEST_URI} !sitemap\r\n' + 
-          'RewriteCond %{REQUEST_URI} !google\r\n' + 
-          'RewriteRule (.*) ' + site_folder + '/index.php [L]\r\n\r\n' + 
-          '</IfModule>';
+grunt.registerTask('htaccess', 'Creates an empty file', function() {
+  var ht = '<IfModule mod_rewrite.c>\r\n' + 
+  'RewriteEngine On\r\nRewriteBase /\r\n\r\n' +
+  'RewriteCond %{REQUEST_FILENAME} !-f\r\n' +
+  'RewriteCond %{REQUEST_FILENAME} !-d\r\n' +
+  'RewriteRule ^plein/(.*)  /' + ht_access_root + '/plein.php?c=$1 [L]\r\n\r\n' +
+  '# RewriteCond %{REQUEST_FILENAME} !-f\r\n# RewriteCond %{REQUEST_FILENAME} !-d\r\n' +
+  '# RewriteRule ^(.*)  /' + ht_access_root + '/#/$1 [L]\r\n\r\n' +
+  'RewriteCond %{REQUEST_FILENAME} !-f\r\n' + 
+  'RewriteCond %{REQUEST_FILENAME} !-d\r\n' + 
+  'RewriteCond %{REQUEST_URI} !index\r\n' + 
+  'RewriteCond %{REQUEST_URI} !robots\r\n' + 
+  'RewriteCond %{REQUEST_URI} !sitemap\r\n' + 
+  'RewriteCond %{REQUEST_URI} !google\r\n' + 
+  'RewriteRule (.*) ' + ht_access_root + '/index.php [L]\r\n\r\n' + 
+  '</IfModule>';
 
-       grunt.file.write(htaccess, ht);
-    });
+  grunt.file.write(htaccess, ht);
+});
 
-    require('matchdep').filterDev('grunt-*','package.json').forEach(grunt.loadNpmTasks);
+require('matchdep').filterDev('grunt-*','package.json').forEach(grunt.loadNpmTasks);
 
-    grunt.registerTask('start', ['connect', 'watch']);
-    grunt.registerTask('build', ['copy', 'concat', 'uglify', 'sass', 'htaccess']);
-    grunt.registerTask('default', ['build', 'connect','watch']);
-  };
+grunt.registerTask('start', ['connect', 'watch']);
+grunt.registerTask('build', ['copy', 'concat', 'uglify', 'sass', 'htaccess', 'replace']);
+grunt.registerTask('default', ['build', 'connect','watch']);
+};
