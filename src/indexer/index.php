@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="fr" ng-app="wsapp">
 <head>
-    <!-- Google Webmaster Tools -->
-    <base href="/ws_site_temp/www/">
+    <!-- generate_base -->
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <script type="text/javascript" src="js/jquery.js"></script>
