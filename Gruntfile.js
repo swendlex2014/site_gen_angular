@@ -67,6 +67,7 @@ module.exports = function(grunt) {
   var wsSass_watch = [source_site + '/sass/ws/*.scss', source_site + '/sass/ws.scss'];
   var wsJs_watch = [source_site + '/wsJs/*.js'];
   var html_watch = [source_site + '/parts/**/*.html', source_site + '/pages/*.html'];
+  var lib_watch = ['lib/*', 'lib/**/*', 'lib/**/**/*', 'lib/**/**/**/*'];
 
     // Display the execution time when tasks are run:
     require('time-grunt')(grunt);
@@ -120,9 +121,10 @@ module.exports = function(grunt) {
             gruntjs: { files: ['Gruntfile.js'], tasks: ['build'], options: {livereload: true}},  
             appjs: { files: appjs_watch, tasks: ['concat:appjs', 'concat:wsJs'], options: {livereload: true}}, 
             apphtml: { files: apphtml_watch, tasks: ['copy:sitepages', 'copy:siteparts'], options: {livereload: true}}, 
-            appindex: { files: appindex_watch, tasks: ['copy:siteindex'], options: {livereload: true}}, 
+            appindex: { files: appindex_watch, tasks: ['copy:siteindex', 'replace:indexer'], options: {livereload: true}}, 
             wsJs: { files: wsJs_watch, tasks: ['concat:wsJs'], options: {livereload: true}}, 
             wsSass: { files: wsSass_watch, tasks: ['sass:ws'], options: {livereload: true}}, 
+            wsLib: { files: lib_watch, tasks: ['copy:sitelib'], options: {livereload: true}}, 
           },
 
           clean: {
@@ -130,7 +132,7 @@ module.exports = function(grunt) {
           },
 
           replace: {
-            another_example: {
+            indexer: {
               src: ['www/index.php'],
               overwrite: true,               
               replacements: [{

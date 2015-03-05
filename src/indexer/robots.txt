@@ -2,4 +2,7 @@
 User-agent: *
 Disallow: 
 Disallow: /dms/
+Disallow: /services/
+Disallow: /res/
+Disallow: /serv/
 Sitemap: http://wspecs.com/hl/sitemap.xml
